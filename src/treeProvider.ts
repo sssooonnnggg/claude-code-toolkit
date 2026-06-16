@@ -4,6 +4,7 @@ import { buildGroups } from "./sessionsModel";
 import { formatRelative } from "./relativeTime";
 import { PinStore } from "./pinStore";
 import { NameStore } from "./nameStore";
+import { displayName } from "./display";
 
 type Node =
   | { kind: "group"; key: string; label: string; children: SessionMeta[] }
@@ -32,8 +33,7 @@ export class SessionsTreeProvider implements vscode.TreeDataProvider<Node> {
       item.contextValue = "group";
       return item;
     }
-    const label = this.names.get(node.meta.sessionId) ?? node.meta.title ?? node.meta.sessionId;
-    const item = new vscode.TreeItem(label || node.meta.sessionId, vscode.TreeItemCollapsibleState.None);
+    const item = new vscode.TreeItem(displayName(node.meta, this.names), vscode.TreeItemCollapsibleState.None);
     item.description = formatRelative(node.meta.mtimeMs, this.now());
     item.tooltip = `${node.meta.title}\n${node.meta.sessionId}`;
     item.contextValue = node.pinned ? "pinnedSession" : "unpinnedSession";
