@@ -41,5 +41,29 @@ export function registerCommands(
       else await names.set(node.meta.sessionId, input);
       refresh();
     }),
+    vscode.commands.registerCommand("claudeCodeToolkit.sessions.delete", async (node: { meta?: { sessionId: string; title: string; filePath: string } }) => {
+      if (!node?.meta) return;
+      const label = names.get(node.meta.sessionId) ?? node.meta.title ?? node.meta.sessionId;
+      const pick = await vscode.window.showWarningMessage(
+        `Delete session "${label}"? It will be moved to the trash.`,
+        { modal: true },
+        "Delete",
+      );
+      if (pick !== "Delete") return;
+      try {
+        await vscode.workspace.fs.delete(vscode.Uri.file(node.meta.filePath), { useTrash: true });
+        await pins.unpin(node.meta.sessionId);
+        await names.clear(node.meta.sessionId);
+      } catch (e) {
+        void vscode.window.showErrorMessage(`Could not delete session: ${e instanceof Error ? e.message : String(e)}`);
+      }
+      refresh();
+    }),
+    vscode.commands.registerCommand("claudeCodeToolkit.sessions.copyId", async (node: { meta?: { sessionId: string } }) => {
+      if (node?.meta) await vscode.env.clipboard.writeText(node.meta.sessionId);
+    }),
+    vscode.commands.registerCommand("claudeCodeToolkit.sessions.copyPath", async (node: { meta?: { filePath: string } }) => {
+      if (node?.meta) await vscode.env.clipboard.writeText(node.meta.filePath);
+    }),
   );
 }
