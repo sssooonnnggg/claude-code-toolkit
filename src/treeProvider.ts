@@ -2,9 +2,8 @@ import * as vscode from "vscode";
 import type { SessionMeta } from "./types";
 import { buildGroups } from "./sessionsModel";
 import { formatRelative } from "./relativeTime";
-import { PinStore } from "./pinStore";
-import { NameStore } from "./nameStore";
-import { displayName } from "./display";
+import { sessionLabel } from "./display";
+import type { SessionStores } from "./sessionStores";
 
 type Node =
   | { kind: "group"; key: string; label: string; children: SessionMeta[] }
@@ -17,8 +16,7 @@ export class SessionsTreeProvider implements vscode.TreeDataProvider<Node> {
 
   constructor(
     private readonly load: () => Promise<SessionMeta[]>,
-    private readonly pins: PinStore,
-    private readonly names: NameStore,
+    private readonly stores: SessionStores,
     private readonly now: () => number = () => Date.now(),
   ) {}
 
@@ -33,7 +31,7 @@ export class SessionsTreeProvider implements vscode.TreeDataProvider<Node> {
       item.contextValue = "group";
       return item;
     }
-    const item = new vscode.TreeItem(displayName(node.meta, this.names), vscode.TreeItemCollapsibleState.None);
+    const item = new vscode.TreeItem(sessionLabel(node.meta, this.stores), vscode.TreeItemCollapsibleState.None);
     item.description = formatRelative(node.meta.mtimeMs, this.now());
     item.tooltip = `${node.meta.title}\n${node.meta.sessionId}`;
     item.contextValue = node.pinned ? "pinnedSession" : "unpinnedSession";
@@ -45,14 +43,19 @@ export class SessionsTreeProvider implements vscode.TreeDataProvider<Node> {
   async getChildren(node?: Node): Promise<Node[]> {
     if (node) {
       if (node.kind === "group") {
-        const pinnedSet = new Set(this.pins.list());
+        const pinnedSet = new Set(this.stores.pins.list());
         return node.children.map((meta) => ({ kind: "session", meta, pinned: pinnedSet.has(meta.sessionId) }));
       }
       return [];
     }
     const sessions = await this.load();
     if (sessions.length === 0) return [{ kind: "empty", label: "No sessions for this workspace" }];
-    const groups = buildGroups(sessions, new Set(this.pins.list()), this.now());
+    const groups = buildGroups(
+      sessions,
+      new Set(this.stores.pins.list()),
+      this.now(),
+      (id) => this.stores.groups.get(id),
+    );
     return groups.map((g) => ({ kind: "group", key: g.key, label: g.label, children: g.items }));
   }
 }

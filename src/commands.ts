@@ -1,9 +1,8 @@
 import * as vscode from "vscode";
-import { PinStore } from "./pinStore";
-import { NameStore } from "./nameStore";
-import { displayName } from "./display";
+import { sessionLabel } from "./display";
 import { formatRelative } from "./relativeTime";
 import type { SessionMeta } from "./types";
+import type { SessionStores } from "./sessionStores";
 import { SessionsTreeProvider } from "./treeProvider";
 
 const OFFICIAL_OPEN = "claude-vscode.editor.open";
@@ -21,11 +20,11 @@ export async function openSession(sessionId: string): Promise<void> {
 
 export function registerCommands(
   context: vscode.ExtensionContext,
-  pins: PinStore,
-  names: NameStore,
+  stores: SessionStores,
   provider: SessionsTreeProvider,
   load: () => Promise<SessionMeta[]>,
 ): void {
+  const { pins, names } = stores;
   const refresh = () => provider.refresh();
   context.subscriptions.push(
     vscode.commands.registerCommand("claudeCodeToolkit.sessions.open", (sessionId: string) => openSession(sessionId)),
@@ -40,7 +39,7 @@ export function registerCommands(
       if (!node?.meta) return;
       const current = names.get(node.meta.sessionId) ?? node.meta.title ?? "";
       const input = await vscode.window.showInputBox({ value: current, prompt: "Rename session (leave empty to reset)" });
-      if (input === undefined) return; // cancelled
+      if (input === undefined) return;
       if (input.trim() === "") await names.clear(node.meta.sessionId);
       else await names.set(node.meta.sessionId, input);
       refresh();
@@ -58,6 +57,9 @@ export function registerCommands(
         await vscode.workspace.fs.delete(vscode.Uri.file(node.meta.filePath), { useTrash: true });
         await pins.unpin(node.meta.sessionId);
         await names.clear(node.meta.sessionId);
+        await stores.emojis.clear(node.meta.sessionId);
+        await stores.colors.clear(node.meta.sessionId);
+        await stores.groups.clear(node.meta.sessionId);
       } catch (e) {
         void vscode.window.showErrorMessage(`Could not delete session: ${e instanceof Error ? e.message : String(e)}`);
       }
@@ -75,10 +77,10 @@ export function registerCommands(
         void vscode.window.showInformationMessage("No sessions to search.");
         return;
       }
-      const items = sessions.map((s) => ({
-        label: displayName(s, names),
-        description: formatRelative(s.mtimeMs, Date.now()),
-        sessionId: s.sessionId,
+      const items = sessions.map((sm) => ({
+        label: sessionLabel(sm, stores),
+        description: formatRelative(sm.mtimeMs, Date.now()),
+        sessionId: sm.sessionId,
       }));
       const pick = await vscode.window.showQuickPick(items, { placeHolder: "Search sessions by name" });
       if (pick) await openSession(pick.sessionId);
