@@ -64,3 +64,35 @@ describe("bucketOf", () => {
     expect(bucketOf(startOfToday - 30 * DAY - 1, now)).toBe("older");
   });
 });
+
+describe("buildGroups custom groups", () => {
+  const groupOf = (map: Record<string, string>) => (id: string): string | undefined => map[id];
+
+  it("switches to group mode when any session has a group; alpha order, Ungrouped last", () => {
+    const sessions = [s("a", startOfToday + 3), s("b", startOfToday + 2), s("c", startOfToday + 1)];
+    const g = buildGroups(sessions, new Set<string>(), now, groupOf({ a: "Work", b: "Admin" }));
+    expect(g.map((x) => x.label)).toEqual(["Admin", "Work", "Ungrouped"]);
+    expect(g[2].items.map((i) => i.sessionId)).toEqual(["c"]);
+  });
+
+  it("keeps pinned in the Pinned group even in group mode", () => {
+    const sessions = [s("a", startOfToday + 3), s("b", startOfToday + 2)];
+    const g = buildGroups(sessions, new Set(["a"]), now, groupOf({ a: "Work", b: "Work" }));
+    expect(g[0].key).toBe("pinned");
+    expect(g[0].items.map((i) => i.sessionId)).toEqual(["a"]);
+    expect(g[1].label).toBe("Work");
+    expect(g[1].items.map((i) => i.sessionId)).toEqual(["b"]);
+  });
+
+  it("sorts items within a custom group mtime desc", () => {
+    const sessions = [s("a", startOfToday + 1), s("b", startOfToday + 3), s("c", startOfToday + 2)];
+    const g = buildGroups(sessions, new Set<string>(), now, groupOf({ a: "W", b: "W", c: "W" }));
+    expect(g[0].items.map((i) => i.sessionId)).toEqual(["b", "c", "a"]);
+  });
+
+  it("stays in date mode when no session has a group", () => {
+    const sessions = [s("a", startOfToday + 5)];
+    const g = buildGroups(sessions, new Set<string>(), now, groupOf({}));
+    expect(g[0].key).toBe("today");
+  });
+});

@@ -24,11 +24,17 @@ const DATE_GROUPS: { key: DateBucket; label: string }[] = [
 ];
 
 /**
- * Build an ordered list of groups: a Pinned group first (if any), then non-empty
- * date buckets in fixed order. Pinned sessions never appear in date buckets.
+ * Build an ordered list of groups. Pinned sessions come first (if any) and never
+ * appear elsewhere. If any non-pinned session has a custom group, switch to group
+ * mode (custom groups alphabetically, then Ungrouped); otherwise use date buckets.
  * Items within every group are mtime-descending.
  */
-export function buildGroups(sessions: SessionMeta[], pinned: Set<string>, nowMs: number): SessionGroup[] {
+export function buildGroups(
+  sessions: SessionMeta[],
+  pinned: Set<string>,
+  nowMs: number,
+  groupOf: (sessionId: string) => string | undefined = () => undefined,
+): SessionGroup[] {
   const sorted = [...sessions].sort((a, b) => b.mtimeMs - a.mtimeMs);
   const groups: SessionGroup[] = [];
 
@@ -36,9 +42,20 @@ export function buildGroups(sessions: SessionMeta[], pinned: Set<string>, nowMs:
   if (pinnedItems.length > 0) groups.push({ key: "pinned", label: "Pinned", items: pinnedItems });
 
   const rest = sorted.filter((s) => !pinned.has(s.sessionId));
-  for (const { key, label } of DATE_GROUPS) {
-    const items = rest.filter((s) => bucketOf(s.mtimeMs, nowMs) === key);
-    if (items.length > 0) groups.push({ key, label, items });
+
+  if (rest.some((s) => groupOf(s.sessionId))) {
+    const names = [...new Set(rest.map((s) => groupOf(s.sessionId)).filter((g): g is string => !!g))].sort();
+    for (const name of names) {
+      const items = rest.filter((s) => groupOf(s.sessionId) === name);
+      if (items.length > 0) groups.push({ key: `group:${name}`, label: name, items });
+    }
+    const ungrouped = rest.filter((s) => !groupOf(s.sessionId));
+    if (ungrouped.length > 0) groups.push({ key: "ungrouped", label: "Ungrouped", items: ungrouped });
+  } else {
+    for (const { key, label } of DATE_GROUPS) {
+      const items = rest.filter((s) => bucketOf(s.mtimeMs, nowMs) === key);
+      if (items.length > 0) groups.push({ key, label, items });
+    }
   }
   return groups;
 }
