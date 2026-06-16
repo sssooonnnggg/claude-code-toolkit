@@ -29,9 +29,9 @@ describe("titleOf", () => {
     expect(titleOf(jsonl)).toBe("Real question here");
   });
   it("collapses whitespace and truncates long titles", () => {
+    expect(titleOf(userText("a\t\t  b\n c"))).toBe("a b c");
     const long = "word ".repeat(40).trim();
-    const out = titleOf(userText(long));
-    expect(out.length).toBeLessThanOrEqual(60);
+    expect(titleOf(userText(long)).length).toBeLessThanOrEqual(60);
   });
   it("tolerates malformed lines", () => {
     const jsonl = ["{not json", userText("After bad line")].join("\n");
