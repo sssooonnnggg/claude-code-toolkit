@@ -22,12 +22,12 @@ export function registerCommands(
 ): void {
   const refresh = () => provider.refresh();
   context.subscriptions.push(
-    vscode.commands.registerCommand("claudeSessionPins.open", (sessionId: string) => openSession(sessionId)),
-    vscode.commands.registerCommand("claudeSessionPins.refresh", () => refresh()),
-    vscode.commands.registerCommand("claudeSessionPins.pin", async (node: { meta?: { sessionId: string } }) => {
+    vscode.commands.registerCommand("claudeCodeToolkit.sessions.open", (sessionId: string) => openSession(sessionId)),
+    vscode.commands.registerCommand("claudeCodeToolkit.sessions.refresh", () => refresh()),
+    vscode.commands.registerCommand("claudeCodeToolkit.sessions.pin", async (node: { meta?: { sessionId: string } }) => {
       if (node?.meta) { await pins.pin(node.meta.sessionId); refresh(); }
     }),
-    vscode.commands.registerCommand("claudeSessionPins.unpin", async (node: { meta?: { sessionId: string } }) => {
+    vscode.commands.registerCommand("claudeCodeToolkit.sessions.unpin", async (node: { meta?: { sessionId: string } }) => {
       if (node?.meta) { await pins.unpin(node.meta.sessionId); refresh(); }
     }),
   );

@@ -22,7 +22,7 @@ export function activate(context: vscode.ExtensionContext): void {
   );
 
   context.subscriptions.push(
-    vscode.window.registerTreeDataProvider("claudeSessionPinsView", provider),
+    vscode.window.registerTreeDataProvider("claudeCodeToolkit.sessions", provider),
   );
   registerCommands(context, pins, provider);
 

@@ -1,41 +1,51 @@
 {
-  "name": "claude-session-pins",
-  "displayName": "Claude Session Pins",
-  "description": "Pin important Claude Code sessions to the top of a sidebar list.",
-  "version": "0.0.1",
-  "publisher": "local",
+  "name": "claude-code-toolkit",
+  "displayName": "Claude Code Toolkit",
+  "description": "Handy enhancements for the Claude Code VSCode extension. First feature: pin important sessions to the top of a sidebar list.",
+  "version": "0.1.0",
+  "publisher": "sssooonnnggg",
+  "license": "MIT",
+  "author": { "name": "sssooonnnggg" },
   "engines": { "vscode": "^1.85.0" },
   "categories": ["Other"],
+  "keywords": ["claude", "claude code", "anthropic", "sessions", "pin", "productivity"],
+  "repository": { "type": "git", "url": "https://github.com/sssooonnnggg/claude-code-toolkit.git" },
+  "bugs": { "url": "https://github.com/sssooonnnggg/claude-code-toolkit/issues" },
+  "homepage": "https://github.com/sssooonnnggg/claude-code-toolkit#readme",
   "main": "./dist/extension.js",
-  "activationEvents": ["onView:claudeSessionPinsView"],
   "contributes": {
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "claudeSessionPins",
-          "title": "Claude Pins",
+          "id": "claudeCodeToolkit",
+          "title": "Claude Code Toolkit",
           "icon": "media/pin.svg"
         }
       ]
     },
     "views": {
-      "claudeSessionPins": [
-        { "id": "claudeSessionPinsView", "name": "Sessions" }
+      "claudeCodeToolkit": [
+        { "id": "claudeCodeToolkit.sessions", "name": "Sessions" }
       ]
     },
     "commands": [
-      { "command": "claudeSessionPins.refresh", "title": "Refresh", "icon": "$(refresh)" },
-      { "command": "claudeSessionPins.open", "title": "Open Session" },
-      { "command": "claudeSessionPins.pin", "title": "Pin", "icon": "$(pin)" },
-      { "command": "claudeSessionPins.unpin", "title": "Unpin", "icon": "$(pinned)" }
+      { "command": "claudeCodeToolkit.sessions.refresh", "title": "Refresh Sessions", "category": "Claude Code Toolkit", "icon": "$(refresh)" },
+      { "command": "claudeCodeToolkit.sessions.open", "title": "Open Session", "category": "Claude Code Toolkit" },
+      { "command": "claudeCodeToolkit.sessions.pin", "title": "Pin Session", "category": "Claude Code Toolkit", "icon": "$(pin)" },
+      { "command": "claudeCodeToolkit.sessions.unpin", "title": "Unpin Session", "category": "Claude Code Toolkit", "icon": "$(pinned)" }
     ],
     "menus": {
+      "commandPalette": [
+        { "command": "claudeCodeToolkit.sessions.open", "when": "false" },
+        { "command": "claudeCodeToolkit.sessions.pin", "when": "false" },
+        { "command": "claudeCodeToolkit.sessions.unpin", "when": "false" }
+      ],
       "view/title": [
-        { "command": "claudeSessionPins.refresh", "when": "view == claudeSessionPinsView", "group": "navigation" }
+        { "command": "claudeCodeToolkit.sessions.refresh", "when": "view == claudeCodeToolkit.sessions", "group": "navigation" }
       ],
       "view/item/context": [
-        { "command": "claudeSessionPins.pin", "when": "view == claudeSessionPinsView && viewItem == unpinnedSession", "group": "inline" },
-        { "command": "claudeSessionPins.unpin", "when": "view == claudeSessionPinsView && viewItem == pinnedSession", "group": "inline" }
+        { "command": "claudeCodeToolkit.sessions.pin", "when": "view == claudeCodeToolkit.sessions && viewItem == unpinnedSession", "group": "inline" },
+        { "command": "claudeCodeToolkit.sessions.unpin", "when": "view == claudeCodeToolkit.sessions && viewItem == pinnedSession", "group": "inline" }
       ]
     }
   },

@@ -35,7 +35,7 @@ export class SessionsTreeProvider implements vscode.TreeDataProvider<Node> {
     item.tooltip = `${node.meta.title}\n${node.meta.sessionId}`;
     item.contextValue = node.pinned ? "pinnedSession" : "unpinnedSession";
     item.iconPath = new vscode.ThemeIcon(node.pinned ? "pinned" : "comment-discussion");
-    item.command = { command: "claudeSessionPins.open", title: "Open Session", arguments: [node.meta.sessionId] };
+    item.command = { command: "claudeCodeToolkit.sessions.open", title: "Open Session", arguments: [node.meta.sessionId] };
     return item;
   }
 

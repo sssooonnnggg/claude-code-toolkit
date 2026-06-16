@@ -1,3 +1,6 @@
 node_modules/
 dist/
 *.vsix
+
+# Internal design/process notes — kept locally, not published
+docs/
