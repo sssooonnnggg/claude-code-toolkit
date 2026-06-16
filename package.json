@@ -1,0 +1,55 @@
+{
+  "name": "claude-session-pins",
+  "displayName": "Claude Session Pins",
+  "description": "Pin important Claude Code sessions to the top of a sidebar list.",
+  "version": "0.0.1",
+  "publisher": "local",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Other"],
+  "main": "./dist/extension.js",
+  "activationEvents": ["onView:claudeSessionPinsView"],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "claudeSessionPins",
+          "title": "Claude Pins",
+          "icon": "media/pin.svg"
+        }
+      ]
+    },
+    "views": {
+      "claudeSessionPins": [
+        { "id": "claudeSessionPinsView", "name": "Sessions" }
+      ]
+    },
+    "commands": [
+      { "command": "claudeSessionPins.refresh", "title": "Refresh", "icon": "$(refresh)" },
+      { "command": "claudeSessionPins.open", "title": "Open Session" },
+      { "command": "claudeSessionPins.pin", "title": "Pin", "icon": "$(pin)" },
+      { "command": "claudeSessionPins.unpin", "title": "Unpin", "icon": "$(pinned)" }
+    ],
+    "menus": {
+      "view/title": [
+        { "command": "claudeSessionPins.refresh", "when": "view == claudeSessionPinsView", "group": "navigation" }
+      ],
+      "view/item/context": [
+        { "command": "claudeSessionPins.pin", "when": "view == claudeSessionPinsView && viewItem == unpinnedSession", "group": "inline" },
+        { "command": "claudeSessionPins.unpin", "when": "view == claudeSessionPinsView && viewItem == pinnedSession", "group": "inline" }
+      ]
+    }
+  },
+  "scripts": {
+    "compile": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "test": "vitest run",
+    "vscode:prepublish": "node esbuild.js --production"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.21.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}
