@@ -1,6 +1,9 @@
 import * as vscode from "vscode";
 import { PinStore } from "./pinStore";
 import { NameStore } from "./nameStore";
+import { displayName } from "./display";
+import { formatRelative } from "./relativeTime";
+import type { SessionMeta } from "./types";
 import { SessionsTreeProvider } from "./treeProvider";
 
 const OFFICIAL_OPEN = "claude-vscode.editor.open";
@@ -21,6 +24,7 @@ export function registerCommands(
   pins: PinStore,
   names: NameStore,
   provider: SessionsTreeProvider,
+  load: () => Promise<SessionMeta[]>,
 ): void {
   const refresh = () => provider.refresh();
   context.subscriptions.push(
@@ -64,6 +68,20 @@ export function registerCommands(
     }),
     vscode.commands.registerCommand("claudeCodeToolkit.sessions.copyPath", async (node: { meta?: { filePath: string } }) => {
       if (node?.meta) await vscode.env.clipboard.writeText(node.meta.filePath);
+    }),
+    vscode.commands.registerCommand("claudeCodeToolkit.sessions.search", async () => {
+      const sessions = await load();
+      if (sessions.length === 0) {
+        void vscode.window.showInformationMessage("No sessions to search.");
+        return;
+      }
+      const items = sessions.map((s) => ({
+        label: displayName(s, names),
+        description: formatRelative(s.mtimeMs, Date.now()),
+        sessionId: s.sessionId,
+      }));
+      const pick = await vscode.window.showQuickPick(items, { placeHolder: "Search sessions by name" });
+      if (pick) await openSession(pick.sessionId);
     }),
   );
 }

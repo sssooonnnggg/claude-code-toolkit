@@ -37,7 +37,8 @@
       { "command": "claudeCodeToolkit.sessions.rename", "title": "Rename Session", "category": "Toolkit for Claude Code", "icon": "$(edit)" },
       { "command": "claudeCodeToolkit.sessions.copyId", "title": "Copy Session ID", "category": "Toolkit for Claude Code" },
       { "command": "claudeCodeToolkit.sessions.copyPath", "title": "Copy Transcript Path", "category": "Toolkit for Claude Code" },
-      { "command": "claudeCodeToolkit.sessions.delete", "title": "Delete Session", "category": "Toolkit for Claude Code", "icon": "$(trash)" }
+      { "command": "claudeCodeToolkit.sessions.delete", "title": "Delete Session", "category": "Toolkit for Claude Code", "icon": "$(trash)" },
+      { "command": "claudeCodeToolkit.sessions.search", "title": "Search Sessions", "category": "Toolkit for Claude Code", "icon": "$(search)" }
     ],
     "menus": {
       "commandPalette": [
@@ -50,7 +51,8 @@
         { "command": "claudeCodeToolkit.sessions.delete", "when": "false" }
       ],
       "view/title": [
-        { "command": "claudeCodeToolkit.sessions.refresh", "when": "view == claudeCodeToolkit.sessions", "group": "navigation" }
+        { "command": "claudeCodeToolkit.sessions.search", "when": "view == claudeCodeToolkit.sessions", "group": "navigation@1" },
+        { "command": "claudeCodeToolkit.sessions.refresh", "when": "view == claudeCodeToolkit.sessions", "group": "navigation@2" }
       ],
       "view/item/context": [
         { "command": "claudeCodeToolkit.sessions.pin", "when": "view == claudeCodeToolkit.sessions && viewItem == unpinnedSession", "group": "inline" },

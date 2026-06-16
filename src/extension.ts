@@ -18,16 +18,13 @@ export function activate(context: vscode.ExtensionContext): void {
 
   const pins = new PinStore(context.globalState);
   const names = new NameStore(context.globalState);
-  const provider = new SessionsTreeProvider(
-    () => (dir ? scanSessions(dir) : Promise.resolve([])),
-    pins,
-    names,
-  );
+  const load = () => (dir ? scanSessions(dir) : Promise.resolve([]));
+  const provider = new SessionsTreeProvider(load, pins, names);
 
   context.subscriptions.push(
     vscode.window.registerTreeDataProvider("claudeCodeToolkit.sessions", provider),
   );
-  registerCommands(context, pins, names, provider);
+  registerCommands(context, pins, names, provider, load);
 
   if (dir) {
     const watcher = vscode.workspace.createFileSystemWatcher(
