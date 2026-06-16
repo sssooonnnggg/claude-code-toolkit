@@ -85,5 +85,50 @@ export function registerCommands(
       const pick = await vscode.window.showQuickPick(items, { placeHolder: "Search sessions by name" });
       if (pick) await openSession(pick.sessionId);
     }),
+    vscode.commands.registerCommand("claudeCodeToolkit.sessions.setColor", async (node: { meta?: { sessionId: string } }) => {
+      if (!node?.meta) return;
+      const options = [
+        { label: "🔴 Red", value: "🔴" },
+        { label: "🟠 Orange", value: "🟠" },
+        { label: "🟡 Yellow", value: "🟡" },
+        { label: "🟢 Green", value: "🟢" },
+        { label: "🔵 Blue", value: "🔵" },
+        { label: "🟣 Purple", value: "🟣" },
+        { label: "🟤 Brown", value: "🟤" },
+        { label: "None", value: "" },
+      ];
+      const pick = await vscode.window.showQuickPick(options, { placeHolder: "Set session color" });
+      if (!pick) return;
+      await stores.colors.set(node.meta.sessionId, pick.value);
+      refresh();
+    }),
+    vscode.commands.registerCommand("claudeCodeToolkit.sessions.setEmoji", async (node: { meta?: { sessionId: string } }) => {
+      if (!node?.meta) return;
+      const current = stores.emojis.get(node.meta.sessionId) ?? "";
+      const input = await vscode.window.showInputBox({ value: current, prompt: "Set emoji (leave empty to clear)" });
+      if (input === undefined) return;
+      await stores.emojis.set(node.meta.sessionId, input);
+      refresh();
+    }),
+    vscode.commands.registerCommand("claudeCodeToolkit.sessions.setGroup", async (node: { meta?: { sessionId: string } }) => {
+      if (!node?.meta) return;
+      const id = node.meta.sessionId;
+      const existing = [...new Set(Object.values(stores.groups.all()))].sort();
+      const CREATE = "$(add) Create new group…";
+      const REMOVE = "$(close) Remove from group";
+      const picks = [...existing, CREATE, ...(stores.groups.get(id) ? [REMOVE] : [])];
+      const choice = await vscode.window.showQuickPick(picks, { placeHolder: "Set session group" });
+      if (choice === undefined) return;
+      if (choice === REMOVE) {
+        await stores.groups.clear(id);
+      } else if (choice === CREATE) {
+        const name = await vscode.window.showInputBox({ prompt: "New group name" });
+        if (name === undefined || name.trim() === "") return;
+        await stores.groups.set(id, name);
+      } else {
+        await stores.groups.set(id, choice);
+      }
+      refresh();
+    }),
   );
 }
