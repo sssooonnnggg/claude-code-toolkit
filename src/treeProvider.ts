@@ -52,7 +52,7 @@ export class SessionsTreeProvider implements vscode.TreeDataProvider<Node> {
     const groups = buildGroups(sessions, new Set(this.pins.list()));
     const roots: Node[] = [];
     if (groups.pinned.length > 0) roots.push({ kind: "group", label: "Pinned", children: groups.pinned });
-    roots.push({ kind: "group", label: "Recent", children: groups.recent });
+    if (groups.recent.length > 0) roots.push({ kind: "group", label: "Recent", children: groups.recent });
     return roots;
   }
 }
