@@ -70,5 +70,7 @@ describe("scanSessions", () => {
     ]);
     expect(out[1].title).toBe("Older session");
     expect(out[0].title).toContain("22222222"); // fallback includes short id
+    expect(out[1].filePath).toBe(older);
+    expect(out[0].filePath).toBe(newer);
   });
 });

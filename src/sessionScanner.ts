@@ -54,7 +54,7 @@ export async function scanSessions(projectsDir: string): Promise<SessionMeta[]> 
       const stat = await fs.stat(full);
       const text = await fs.readFile(full, "utf8");
       const title = titleOf(text) || fallbackTitle(sessionId);
-      out.push({ sessionId, mtimeMs: stat.mtimeMs, title });
+      out.push({ sessionId, mtimeMs: stat.mtimeMs, title, filePath: full });
     } catch { /* skip unreadable file */ }
   }
   out.sort((a, b) => b.mtimeMs - a.mtimeMs);
