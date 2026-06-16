@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0
+
+- Rename sessions with custom names (right-click → Rename; empty resets to auto title).
+- Group sessions by date: Pinned, Today, Yesterday, Previous 7 Days, Previous 30 Days, Older.
+- Delete a session (moved to the OS trash, with confirmation).
+- Copy a session's ID or transcript path.
+
 ## 0.1.1
 
 - Add a Marketplace icon.

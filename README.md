@@ -16,6 +16,9 @@ The official session list is ordered by recency, so important conversations get 
 - **Pin / unpin** any session — pinned ones stay on top, regardless of recency.
 - **Click a session to open it** — it reuses the official extension's own "open session" command, so it opens exactly as it would natively.
 - The list refreshes automatically as sessions change, plus a manual refresh button.
+- **Rename** any session to a friendly name (the auto title is just the first prompt).
+- Sessions are **grouped by date** (Today / Yesterday / Previous 7 Days / Previous 30 Days / Older), with pinned ones on top.
+- **Delete** a session (moved to the trash) or **copy** its ID / transcript path from the right-click menu.
 
 More toolkit features are planned — see [Roadmap](#roadmap).
 
