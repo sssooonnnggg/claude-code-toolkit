@@ -1,6 +1,6 @@
 {
-  "name": "claude-code-toolkit",
-  "displayName": "Claude Code Toolkit",
+  "name": "claudecode-toolkit",
+  "displayName": "Toolkit for Claude Code",
   "description": "Handy enhancements for the Claude Code VSCode extension. First feature: pin important sessions to the top of a sidebar list.",
   "version": "0.1.0",
   "publisher": "sssooonnnggg",
@@ -18,7 +18,7 @@
       "activitybar": [
         {
           "id": "claudeCodeToolkit",
-          "title": "Claude Code Toolkit",
+          "title": "Toolkit for Claude Code",
           "icon": "media/pin.svg"
         }
       ]
@@ -29,10 +29,10 @@
       ]
     },
     "commands": [
-      { "command": "claudeCodeToolkit.sessions.refresh", "title": "Refresh Sessions", "category": "Claude Code Toolkit", "icon": "$(refresh)" },
-      { "command": "claudeCodeToolkit.sessions.open", "title": "Open Session", "category": "Claude Code Toolkit" },
-      { "command": "claudeCodeToolkit.sessions.pin", "title": "Pin Session", "category": "Claude Code Toolkit", "icon": "$(pin)" },
-      { "command": "claudeCodeToolkit.sessions.unpin", "title": "Unpin Session", "category": "Claude Code Toolkit", "icon": "$(pinned)" }
+      { "command": "claudeCodeToolkit.sessions.refresh", "title": "Refresh Sessions", "category": "Toolkit for Claude Code", "icon": "$(refresh)" },
+      { "command": "claudeCodeToolkit.sessions.open", "title": "Open Session", "category": "Toolkit for Claude Code" },
+      { "command": "claudeCodeToolkit.sessions.pin", "title": "Pin Session", "category": "Toolkit for Claude Code", "icon": "$(pin)" },
+      { "command": "claudeCodeToolkit.sessions.unpin", "title": "Unpin Session", "category": "Toolkit for Claude Code", "icon": "$(pinned)" }
     ],
     "menus": {
       "commandPalette": [

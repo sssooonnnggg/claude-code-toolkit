@@ -1,4 +1,4 @@
-# Claude Code Toolkit
+# Toolkit for Claude Code
 
 Handy enhancements for the [Claude Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) VSCode extension.
 
@@ -8,7 +8,7 @@ This is an **unofficial, community** add-on (not affiliated with Anthropic). It 
 
 ### 📌 Pin sessions
 
-The official session list is ordered by recency, so important conversations get pushed down as new ones appear. Claude Code Toolkit adds a sidebar with a **Pinned** group that keeps the sessions you care about at the top.
+The official session list is ordered by recency, so important conversations get pushed down as new ones appear. Toolkit for Claude Code adds a sidebar with a **Pinned** group that keeps the sessions you care about at the top.
 
 - Browse the current workspace's Claude Code sessions in a native sidebar view.
 - **Pin / unpin** any session — pinned ones stay on top, regardless of recency.
@@ -29,7 +29,7 @@ The extension reads Claude Code's local session transcripts from `~/.claude/proj
 
 1. Install this extension.
 2. Open a workspace where you've used Claude Code.
-3. Click the **Claude Code Toolkit** icon in the activity bar.
+3. Click the **Toolkit for Claude Code** icon in the activity bar.
 4. Hover a session and click the pin icon to keep it on top; click a session to open it.
 
 ## Roadmap
