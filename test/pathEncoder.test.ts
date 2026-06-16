@@ -14,4 +14,10 @@ describe("encodeProjectDir", () => {
   it("does not collapse separators or alter existing hyphens", () => {
     expect(encodeProjectDir("f:\\a-b\\c")).toBe("f--a-b-c");
   });
+  it("replaces underscores with dashes (Claude encodes _ as -)", () => {
+    expect(encodeProjectDir("F:\\P4\\songruining_ngame\\Server")).toBe("F--P4-songruining-ngame-Server");
+  });
+  it("replaces any non-alphanumeric character with a dash", () => {
+    expect(encodeProjectDir("f:\\P4\\a.b_c d\\e")).toBe("f--P4-a-b-c-d-e");
+  });
 });
