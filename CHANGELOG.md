@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.0
+
+- Set a **color dot** and an **emoji** per session, shown at the start of its label.
+- Organize sessions into **custom groups** — when any group is used, the list groups by your groups (Pinned → groups → Ungrouped) instead of by date.
+
 ## 0.4.0
 
 - Search sessions by name (search icon in the view title, or "Search Sessions" in the command palette).
