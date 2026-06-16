@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1
+
+- Add a Marketplace icon.
+- Add a Simplified Chinese README with a language switcher.
+
 ## 0.1.0
 
 - Initial release.

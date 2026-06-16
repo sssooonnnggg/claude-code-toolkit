@@ -1,5 +1,7 @@
 # Toolkit for Claude Code
 
+**English** | [简体中文](README.zh-CN.md)
+
 Handy enhancements for the [Claude Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) VSCode extension.
 
 This is an **unofficial, community** add-on (not affiliated with Anthropic). It lives alongside the official Claude Code extension and adds quality-of-life features on top of it.
