@@ -55,12 +55,12 @@
         { "command": "claudeCodeToolkit.sessions.refresh", "when": "view == claudeCodeToolkit.sessions", "group": "navigation@2" }
       ],
       "view/item/context": [
-        { "command": "claudeCodeToolkit.sessions.pin", "when": "view == claudeCodeToolkit.sessions && viewItem == unpinnedSession", "group": "inline" },
-        { "command": "claudeCodeToolkit.sessions.unpin", "when": "view == claudeCodeToolkit.sessions && viewItem == pinnedSession", "group": "inline" },
-        { "command": "claudeCodeToolkit.sessions.rename", "when": "view == claudeCodeToolkit.sessions && viewItem =~ /Session$/", "group": "1_modify" },
+        { "command": "claudeCodeToolkit.sessions.rename", "when": "view == claudeCodeToolkit.sessions && viewItem =~ /Session$/", "group": "inline@1" },
+        { "command": "claudeCodeToolkit.sessions.pin", "when": "view == claudeCodeToolkit.sessions && viewItem == unpinnedSession", "group": "inline@2" },
+        { "command": "claudeCodeToolkit.sessions.unpin", "when": "view == claudeCodeToolkit.sessions && viewItem == pinnedSession", "group": "inline@2" },
+        { "command": "claudeCodeToolkit.sessions.delete", "when": "view == claudeCodeToolkit.sessions && viewItem =~ /Session$/", "group": "inline@3" },
         { "command": "claudeCodeToolkit.sessions.copyId", "when": "view == claudeCodeToolkit.sessions && viewItem =~ /Session$/", "group": "5_copy" },
-        { "command": "claudeCodeToolkit.sessions.copyPath", "when": "view == claudeCodeToolkit.sessions && viewItem =~ /Session$/", "group": "5_copy" },
-        { "command": "claudeCodeToolkit.sessions.delete", "when": "view == claudeCodeToolkit.sessions && viewItem =~ /Session$/", "group": "9_danger" }
+        { "command": "claudeCodeToolkit.sessions.copyPath", "when": "view == claudeCodeToolkit.sessions && viewItem =~ /Session$/", "group": "5_copy" }
       ]
     }
   },
