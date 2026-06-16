@@ -5,9 +5,10 @@ export interface SessionMeta {
   filePath: string;    // absolute path to the .jsonl transcript
 }
 
-export interface SessionGroups {
-  pinned: SessionMeta[];  // mtime desc
-  recent: SessionMeta[];  // mtime desc
+export interface SessionGroup {
+  key: string;            // "pinned" | "today" | "yesterday" | "prev7" | "prev30" | "older"
+  label: string;          // human-facing group header
+  items: SessionMeta[];   // mtime desc
 }
 
 export interface MementoLike {

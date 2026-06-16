@@ -1,4 +1,4 @@
-import type { SessionMeta, SessionGroups } from "./types";
+import type { SessionMeta, SessionGroup } from "./types";
 
 export type DateBucket = "today" | "yesterday" | "prev7" | "prev30" | "older";
 
@@ -15,11 +15,30 @@ export function bucketOf(mtimeMs: number, nowMs: number): DateBucket {
   return "older";
 }
 
-/** Split sessions into pinned vs recent, re-sorting each group mtime-desc. */
-export function buildGroups(sessions: SessionMeta[], pinned: Set<string>): SessionGroups {
+const DATE_GROUPS: { key: DateBucket; label: string }[] = [
+  { key: "today", label: "Today" },
+  { key: "yesterday", label: "Yesterday" },
+  { key: "prev7", label: "Previous 7 Days" },
+  { key: "prev30", label: "Previous 30 Days" },
+  { key: "older", label: "Older" },
+];
+
+/**
+ * Build an ordered list of groups: a Pinned group first (if any), then non-empty
+ * date buckets in fixed order. Pinned sessions never appear in date buckets.
+ * Items within every group are mtime-descending.
+ */
+export function buildGroups(sessions: SessionMeta[], pinned: Set<string>, nowMs: number): SessionGroup[] {
   const sorted = [...sessions].sort((a, b) => b.mtimeMs - a.mtimeMs);
-  return {
-    pinned: sorted.filter((s) => pinned.has(s.sessionId)),
-    recent: sorted.filter((s) => !pinned.has(s.sessionId)),
-  };
+  const groups: SessionGroup[] = [];
+
+  const pinnedItems = sorted.filter((s) => pinned.has(s.sessionId));
+  if (pinnedItems.length > 0) groups.push({ key: "pinned", label: "Pinned", items: pinnedItems });
+
+  const rest = sorted.filter((s) => !pinned.has(s.sessionId));
+  for (const { key, label } of DATE_GROUPS) {
+    const items = rest.filter((s) => bucketOf(s.mtimeMs, nowMs) === key);
+    if (items.length > 0) groups.push({ key, label, items });
+  }
+  return groups;
 }

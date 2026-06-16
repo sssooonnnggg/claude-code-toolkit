@@ -5,7 +5,7 @@ import { formatRelative } from "./relativeTime";
 import { PinStore } from "./pinStore";
 
 type Node =
-  | { kind: "group"; label: string; children: SessionMeta[] }
+  | { kind: "group"; key: string; label: string; children: SessionMeta[] }
   | { kind: "session"; meta: SessionMeta; pinned: boolean }
   | { kind: "empty"; label: string };
 
@@ -49,10 +49,7 @@ export class SessionsTreeProvider implements vscode.TreeDataProvider<Node> {
     }
     const sessions = await this.load();
     if (sessions.length === 0) return [{ kind: "empty", label: "No sessions for this workspace" }];
-    const groups = buildGroups(sessions, new Set(this.pins.list()));
-    const roots: Node[] = [];
-    if (groups.pinned.length > 0) roots.push({ kind: "group", label: "Pinned", children: groups.pinned });
-    if (groups.recent.length > 0) roots.push({ kind: "group", label: "Recent", children: groups.recent });
-    return roots;
+    const groups = buildGroups(sessions, new Set(this.pins.list()), this.now());
+    return groups.map((g) => ({ kind: "group", key: g.key, label: g.label, children: g.items }));
   }
 }

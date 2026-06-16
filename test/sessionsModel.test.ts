@@ -2,40 +2,48 @@ import { describe, it, expect } from "vitest";
 import { buildGroups, bucketOf } from "../src/sessionsModel";
 import type { SessionMeta } from "../src/types";
 
-const s = (id: string, mtimeMs: number): SessionMeta => ({ sessionId: id, mtimeMs, title: id });
+const now = new Date(2026, 5, 16, 15, 0, 0).getTime();
+const startOfToday = new Date(2026, 5, 16, 0, 0, 0, 0).getTime();
+const DAY = 86_400_000;
+
+const s = (id: string, mtimeMs: number): SessionMeta =>
+  ({ sessionId: id, mtimeMs, title: id, filePath: `/p/${id}.jsonl` });
 
 describe("buildGroups", () => {
-  const sessions = [s("a", 300), s("b", 200), s("c", 100)]; // already mtime desc
-
-  it("puts pinned ids into the pinned group, rest into recent, both mtime desc", () => {
-    const g = buildGroups(sessions, new Set(["b"]));
-    expect(g.pinned.map((x) => x.sessionId)).toEqual(["b"]);
-    expect(g.recent.map((x) => x.sessionId)).toEqual(["a", "c"]);
+  it("puts pinned into a Pinned group first, mtime desc, excluded from date groups", () => {
+    const sessions = [s("a", startOfToday + 10), s("b", startOfToday + 20)];
+    const g = buildGroups(sessions, new Set(["a"]), now);
+    expect(g[0].key).toBe("pinned");
+    expect(g[0].items.map((x) => x.sessionId)).toEqual(["a"]);
+    // "b" is today and not pinned
+    expect(g[1].key).toBe("today");
+    expect(g[1].items.map((x) => x.sessionId)).toEqual(["b"]);
   });
 
-  it("keeps mtime-desc ordering within the pinned group", () => {
-    const g = buildGroups(sessions, new Set(["c", "a"]));
-    expect(g.pinned.map((x) => x.sessionId)).toEqual(["a", "c"]);
+  it("orders date groups today/yesterday/prev7/prev30/older and omits empty ones", () => {
+    const sessions = [
+      s("today", startOfToday + 5),
+      s("yd", startOfToday - DAY),
+      s("old", startOfToday - 60 * DAY),
+    ];
+    const g = buildGroups(sessions, new Set<string>(), now);
+    expect(g.map((x) => x.key)).toEqual(["today", "yesterday", "older"]);
+    expect(g.map((x) => x.label)).toEqual(["Today", "Yesterday", "Older"]);
   });
 
-  it("ignores pinned ids that no longer exist", () => {
-    const g = buildGroups(sessions, new Set(["zzz"]));
-    expect(g.pinned).toEqual([]);
-    expect(g.recent.map((x) => x.sessionId)).toEqual(["a", "b", "c"]);
+  it("sorts items within a group mtime desc", () => {
+    const sessions = [s("a", startOfToday + 1), s("b", startOfToday + 3), s("c", startOfToday + 2)];
+    const g = buildGroups(sessions, new Set<string>(), now);
+    expect(g[0].key).toBe("today");
+    expect(g[0].items.map((x) => x.sessionId)).toEqual(["b", "c", "a"]);
   });
 
-  it("handles empty input", () => {
-    const g = buildGroups([], new Set<string>());
-    expect(g).toEqual({ pinned: [], recent: [] });
+  it("returns [] for no sessions", () => {
+    expect(buildGroups([], new Set<string>(), now)).toEqual([]);
   });
 });
 
 describe("bucketOf", () => {
-  // Local-midnight today, derived the same way the implementation does — TZ-independent.
-  const now = new Date(2026, 5, 16, 15, 0, 0).getTime();
-  const startOfToday = new Date(2026, 5, 16, 0, 0, 0, 0).getTime();
-  const DAY = 86_400_000;
-
   it("classifies today (including future)", () => {
     expect(bucketOf(startOfToday, now)).toBe("today");
     expect(bucketOf(now + DAY, now)).toBe("today");
