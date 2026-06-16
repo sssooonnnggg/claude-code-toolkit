@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0
+
+- Search sessions by name (search icon in the view title, or "Search Sessions" in the command palette).
+- Rename and delete are now inline hover buttons on each session row.
+
 ## 0.3.0
 
 - Rename sessions with custom names (right-click → Rename; empty resets to auto title).
