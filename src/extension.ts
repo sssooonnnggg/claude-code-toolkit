@@ -4,6 +4,7 @@ import * as path from "node:path";
 import { encodeProjectDir } from "./pathEncoder";
 import { scanSessions } from "./sessionScanner";
 import { PinStore } from "./pinStore";
+import { NameStore } from "./nameStore";
 import { SessionsTreeProvider } from "./treeProvider";
 import { registerCommands } from "./commands";
 
@@ -16,15 +17,17 @@ export function activate(context: vscode.ExtensionContext): void {
   const dir = folder ? projectsDirFor(folder.uri.fsPath) : undefined;
 
   const pins = new PinStore(context.globalState);
+  const names = new NameStore(context.globalState);
   const provider = new SessionsTreeProvider(
     () => (dir ? scanSessions(dir) : Promise.resolve([])),
     pins,
+    names,
   );
 
   context.subscriptions.push(
     vscode.window.registerTreeDataProvider("claudeCodeToolkit.sessions", provider),
   );
-  registerCommands(context, pins, provider);
+  registerCommands(context, pins, names, provider);
 
   if (dir) {
     const watcher = vscode.workspace.createFileSystemWatcher(

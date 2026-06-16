@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import { PinStore } from "./pinStore";
+import { NameStore } from "./nameStore";
 import { SessionsTreeProvider } from "./treeProvider";
 
 const OFFICIAL_OPEN = "claude-vscode.editor.open";
@@ -18,6 +19,7 @@ export async function openSession(sessionId: string): Promise<void> {
 export function registerCommands(
   context: vscode.ExtensionContext,
   pins: PinStore,
+  names: NameStore,
   provider: SessionsTreeProvider,
 ): void {
   const refresh = () => provider.refresh();
@@ -29,6 +31,15 @@ export function registerCommands(
     }),
     vscode.commands.registerCommand("claudeCodeToolkit.sessions.unpin", async (node: { meta?: { sessionId: string } }) => {
       if (node?.meta) { await pins.unpin(node.meta.sessionId); refresh(); }
+    }),
+    vscode.commands.registerCommand("claudeCodeToolkit.sessions.rename", async (node: { meta?: { sessionId: string; title: string } }) => {
+      if (!node?.meta) return;
+      const current = names.get(node.meta.sessionId) ?? node.meta.title ?? "";
+      const input = await vscode.window.showInputBox({ value: current, prompt: "Rename session (leave empty to reset)" });
+      if (input === undefined) return; // cancelled
+      if (input.trim() === "") await names.clear(node.meta.sessionId);
+      else await names.set(node.meta.sessionId, input);
+      refresh();
     }),
   );
 }

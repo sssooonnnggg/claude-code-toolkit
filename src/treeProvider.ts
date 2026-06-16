@@ -3,6 +3,7 @@ import type { SessionMeta } from "./types";
 import { buildGroups } from "./sessionsModel";
 import { formatRelative } from "./relativeTime";
 import { PinStore } from "./pinStore";
+import { NameStore } from "./nameStore";
 
 type Node =
   | { kind: "group"; key: string; label: string; children: SessionMeta[] }
@@ -16,6 +17,7 @@ export class SessionsTreeProvider implements vscode.TreeDataProvider<Node> {
   constructor(
     private readonly load: () => Promise<SessionMeta[]>,
     private readonly pins: PinStore,
+    private readonly names: NameStore,
     private readonly now: () => number = () => Date.now(),
   ) {}
 
@@ -30,7 +32,8 @@ export class SessionsTreeProvider implements vscode.TreeDataProvider<Node> {
       item.contextValue = "group";
       return item;
     }
-    const item = new vscode.TreeItem(node.meta.title || node.meta.sessionId, vscode.TreeItemCollapsibleState.None);
+    const label = this.names.get(node.meta.sessionId) ?? node.meta.title ?? node.meta.sessionId;
+    const item = new vscode.TreeItem(label || node.meta.sessionId, vscode.TreeItemCollapsibleState.None);
     item.description = formatRelative(node.meta.mtimeMs, this.now());
     item.tooltip = `${node.meta.title}\n${node.meta.sessionId}`;
     item.contextValue = node.pinned ? "pinnedSession" : "unpinnedSession";

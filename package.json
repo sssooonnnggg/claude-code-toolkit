@@ -33,20 +33,23 @@
       { "command": "claudeCodeToolkit.sessions.refresh", "title": "Refresh Sessions", "category": "Toolkit for Claude Code", "icon": "$(refresh)" },
       { "command": "claudeCodeToolkit.sessions.open", "title": "Open Session", "category": "Toolkit for Claude Code" },
       { "command": "claudeCodeToolkit.sessions.pin", "title": "Pin Session", "category": "Toolkit for Claude Code", "icon": "$(pin)" },
-      { "command": "claudeCodeToolkit.sessions.unpin", "title": "Unpin Session", "category": "Toolkit for Claude Code", "icon": "$(pinned)" }
+      { "command": "claudeCodeToolkit.sessions.unpin", "title": "Unpin Session", "category": "Toolkit for Claude Code", "icon": "$(pinned)" },
+      { "command": "claudeCodeToolkit.sessions.rename", "title": "Rename Session", "category": "Toolkit for Claude Code", "icon": "$(edit)" }
     ],
     "menus": {
       "commandPalette": [
         { "command": "claudeCodeToolkit.sessions.open", "when": "false" },
         { "command": "claudeCodeToolkit.sessions.pin", "when": "false" },
-        { "command": "claudeCodeToolkit.sessions.unpin", "when": "false" }
+        { "command": "claudeCodeToolkit.sessions.unpin", "when": "false" },
+        { "command": "claudeCodeToolkit.sessions.rename", "when": "false" }
       ],
       "view/title": [
         { "command": "claudeCodeToolkit.sessions.refresh", "when": "view == claudeCodeToolkit.sessions", "group": "navigation" }
       ],
       "view/item/context": [
         { "command": "claudeCodeToolkit.sessions.pin", "when": "view == claudeCodeToolkit.sessions && viewItem == unpinnedSession", "group": "inline" },
-        { "command": "claudeCodeToolkit.sessions.unpin", "when": "view == claudeCodeToolkit.sessions && viewItem == pinnedSession", "group": "inline" }
+        { "command": "claudeCodeToolkit.sessions.unpin", "when": "view == claudeCodeToolkit.sessions && viewItem == pinnedSession", "group": "inline" },
+        { "command": "claudeCodeToolkit.sessions.rename", "when": "view == claudeCodeToolkit.sessions && viewItem =~ /Session$/", "group": "1_modify" }
       ]
     }
   },
