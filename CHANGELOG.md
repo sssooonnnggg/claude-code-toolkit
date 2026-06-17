@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.2
+
+- Rewrite the README and add a screenshot of the session sidebar.
+
 ## 0.5.1
 
 - Unify the pin icon across the activity bar, the session list, and the Marketplace icon (now the native VS Code pushpin).

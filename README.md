@@ -2,50 +2,48 @@
 
 **English** | [简体中文](README.zh-CN.md)
 
-Handy enhancements for the [Claude Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) VSCode extension.
+[![VS Marketplace](https://img.shields.io/visual-studio-marketplace/v/sssooonnnggg.claudecode-toolkit?label=VS%20Marketplace&color=D97757)](https://marketplace.visualstudio.com/items?itemName=sssooonnnggg.claudecode-toolkit)
+[![Installs](https://img.shields.io/visual-studio-marketplace/i/sssooonnnggg.claudecode-toolkit)](https://marketplace.visualstudio.com/items?itemName=sssooonnnggg.claudecode-toolkit)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-This is an **unofficial, community** add-on (not affiliated with Anthropic). It lives alongside the official Claude Code extension and adds quality-of-life features on top of it.
+Quality-of-life enhancements for the official [Claude Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) VSCode extension. Browse, pin, search, rename, color-code, and group your Claude Code sessions from a dedicated sidebar.
+
+> **Unofficial, community add-on** — not affiliated with Anthropic. It runs alongside the official Claude Code extension and never modifies its files.
+
+![Sessions sidebar](media/screenshots/sessions.png)
 
 ## Features
 
-### 📌 Pin sessions
-
-The official session list is ordered by recency, so important conversations get pushed down as new ones appear. Toolkit for Claude Code adds a sidebar with a **Pinned** group that keeps the sessions you care about at the top.
-
-- Browse the current workspace's Claude Code sessions in a native sidebar view.
-- **Pin / unpin** any session — pinned ones stay on top, regardless of recency.
-- **Click a session to open it** — it reuses the official extension's own "open session" command, so it opens exactly as it would natively.
-- The list refreshes automatically as sessions change, plus a manual refresh button.
-- **Rename** any session to a friendly name (the auto title is just the first prompt).
-- Sessions are **grouped by date** (Today / Yesterday / Previous 7 Days / Previous 30 Days / Older), with pinned ones on top.
-- **Delete** a session (moved to the trash) or **copy** its ID / transcript path from the right-click menu.
-- **Search** sessions by name from the view's search button (fuzzy match as you type).
-- Give a session a **color dot**, an **emoji**, or a **custom group** from the right-click menu; custom groups replace date grouping when you use them.
-
-More toolkit features are planned — see [Roadmap](#roadmap).
-
-## How it works
-
-The extension reads Claude Code's local session transcripts from `~/.claude/projects/<encoded-workspace>/*.jsonl` (read-only) to build the list, and derives each session's title from its first human prompt. Pinned state is stored in this extension's own VSCode storage. **Everything stays on your machine** — nothing is sent anywhere, and no official files are modified.
+- 📌 **Pin** important sessions to a top group so they never get buried by newer ones.
+- 🗂️ **Date grouping** — Today / Yesterday / Previous 7 Days / Previous 30 Days / Older.
+- 📁 **Custom groups** — organize sessions into your own groups; once you use them, the list groups by them (Pinned → your groups → Ungrouped) instead of by date.
+- 🎨 **Color dots** and 😀 **emoji** per session, shown at the start of the label.
+- 🔍 **Search** sessions by name (search icon, or "Search Sessions" in the command palette).
+- ✏️ **Rename** sessions, 🗑️ **delete** them (to the trash), and 📋 **copy** their ID / transcript path.
+- 🖱️ **Open** a session with one click — it reuses the official extension's own open command, so it opens exactly as it would natively.
+- 🔄 Auto-refreshes as sessions change, plus a manual refresh button.
 
 ## Requirements
 
-- The official **Claude Code** extension (`anthropic.claude-code`) installed and enabled — it provides the session-open command this extension reuses.
+The official **Claude Code** extension (`anthropic.claude-code`) must be installed and enabled — Toolkit reuses its "open session" command.
 
-## Usage
+## Install
 
-1. Install this extension.
-2. Open a workspace where you've used Claude Code.
-3. Click the **Toolkit for Claude Code** icon in the activity bar.
-4. Hover a session and click the pin icon to keep it on top; click a session to open it.
+Search **"Toolkit for Claude Code"** in the VS Code Extensions view, or install from the [Marketplace](https://marketplace.visualstudio.com/items?itemName=sssooonnnggg.claudecode-toolkit).
 
-## Roadmap
+Then click the **pushpin icon** in the activity bar, open a workspace where you've used Claude Code, and your sessions appear. Hover a row for inline actions (rename, pin, delete); right-click for color, emoji, group, and copy.
 
-This extension is a home for small Claude Code enhancements. Pinning is the first; more are planned. Suggestions welcome via [issues](https://github.com/sssooonnnggg/claude-code-toolkit/issues).
+## How it works
+
+Toolkit reads Claude Code's local session transcripts from `~/.claude/projects/<encoded-workspace>/*.jsonl` (read-only) to build the list, and derives each session's title from its first prompt. Your pins, names, colors, emojis, and groups are stored in this extension's own VS Code storage.
 
 ## Privacy
 
-This extension only reads local files under `~/.claude/projects` and stores pin state locally. It makes no network requests.
+Everything stays on your machine. Toolkit only reads local files under `~/.claude/projects`, stores its settings locally, and makes **no network requests**.
+
+## Roadmap
+
+This extension is a home for small Claude Code enhancements. Ideas under consideration: export a session to Markdown, an all-projects view, sort options, and localization. Suggestions and bug reports welcome via [issues](https://github.com/sssooonnnggg/claude-code-toolkit/issues).
 
 ## License
 
