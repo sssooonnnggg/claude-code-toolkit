@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1
+
+- Unify the pin icon across the activity bar, the session list, and the Marketplace icon (now the native VS Code pushpin).
+
 ## 0.5.0
 
 - Set a **color dot** and an **emoji** per session, shown at the start of its label.
