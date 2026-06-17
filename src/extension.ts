@@ -9,6 +9,7 @@ import { EmojiStore, ColorStore, GroupStore } from "./sessionStores";
 import type { SessionStores } from "./sessionStores";
 import { SessionsTreeProvider } from "./treeProvider";
 import { registerCommands } from "./commands";
+import { registerTabSync } from "./tabSync";
 
 function projectsDirFor(workspacePath: string): string {
   return path.join(os.homedir(), ".claude", "projects", encodeProjectDir(workspacePath));
@@ -31,7 +32,8 @@ export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
     vscode.window.registerTreeDataProvider("claudeCodeToolkit.sessions", provider),
   );
-  registerCommands(context, stores, provider, load);
+  const tabSync = registerTabSync(context, stores.pins, provider);
+  registerCommands(context, stores, provider, load, tabSync.track);
 
   if (dir) {
     const watcher = vscode.workspace.createFileSystemWatcher(

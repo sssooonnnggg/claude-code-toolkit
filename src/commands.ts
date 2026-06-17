@@ -23,11 +23,13 @@ export function registerCommands(
   stores: SessionStores,
   provider: SessionsTreeProvider,
   load: () => Promise<SessionMeta[]>,
+  track: (sessionId: string) => void,
 ): void {
   const { pins, names } = stores;
   const refresh = () => provider.refresh();
+  const openAndTrack = async (id: string) => { await openSession(id); track(id); };
   context.subscriptions.push(
-    vscode.commands.registerCommand("claudeCodeToolkit.sessions.open", (sessionId: string) => openSession(sessionId)),
+    vscode.commands.registerCommand("claudeCodeToolkit.sessions.open", (sessionId: string) => openAndTrack(sessionId)),
     vscode.commands.registerCommand("claudeCodeToolkit.sessions.refresh", () => refresh()),
     vscode.commands.registerCommand("claudeCodeToolkit.sessions.pin", async (node: { meta?: { sessionId: string } }) => {
       if (node?.meta) { await pins.pin(node.meta.sessionId); refresh(); }
@@ -83,7 +85,7 @@ export function registerCommands(
         sessionId: sm.sessionId,
       }));
       const pick = await vscode.window.showQuickPick(items, { placeHolder: "Search sessions by name" });
-      if (pick) await openSession(pick.sessionId);
+      if (pick) await openAndTrack(pick.sessionId);
     }),
     vscode.commands.registerCommand("claudeCodeToolkit.sessions.setColor", async (node: { meta?: { sessionId: string } }) => {
       if (!node?.meta) return;

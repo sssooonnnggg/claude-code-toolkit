@@ -22,6 +22,7 @@ Quality-of-life enhancements for the official [Claude Code](https://marketplace.
 - ✏️ **Rename** sessions, 🗑️ **delete** them (to the trash), and 📋 **copy** their ID / transcript path.
 - 🖱️ **Open** a session with one click — it reuses the official extension's own open command, so it opens exactly as it would natively.
 - 🔄 Auto-refreshes as sessions change, plus a manual refresh button.
+- 🔗 **Pin sync** — pinning a session's editor tab also pins it in the list (one-way).
 
 ## Requirements
 

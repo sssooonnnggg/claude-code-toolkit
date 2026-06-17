@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0
+
+- Pin sync: pinning a session's editor tab now also pins it in the list (one-way; unpinning the tab does nothing). Works for sessions opened from the Toolkit list.
+
 ## 0.5.2
 
 - Rewrite the README and add a screenshot of the session sidebar.
