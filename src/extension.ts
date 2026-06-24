@@ -30,7 +30,7 @@ export function activate(context: vscode.ExtensionContext): void {
   const provider = new SessionsTreeProvider(load, stores);
 
   context.subscriptions.push(
-    vscode.window.registerTreeDataProvider("claudeCodeToolkit.sessions", provider),
+    vscode.window.registerTreeDataProvider("claudeSessionOrganizer.sessions", provider),
   );
   const tabSync = registerTabSync(context, stores.pins, provider);
   registerCommands(context, stores, provider, load, tabSync.track);

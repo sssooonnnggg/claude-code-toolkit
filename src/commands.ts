@@ -29,15 +29,15 @@ export function registerCommands(
   const refresh = () => provider.refresh();
   const openAndTrack = async (id: string) => { await openSession(id); track(id); };
   context.subscriptions.push(
-    vscode.commands.registerCommand("claudeCodeToolkit.sessions.open", (sessionId: string) => openAndTrack(sessionId)),
-    vscode.commands.registerCommand("claudeCodeToolkit.sessions.refresh", () => refresh()),
-    vscode.commands.registerCommand("claudeCodeToolkit.sessions.pin", async (node: { meta?: { sessionId: string } }) => {
+    vscode.commands.registerCommand("claudeSessionOrganizer.sessions.open", (sessionId: string) => openAndTrack(sessionId)),
+    vscode.commands.registerCommand("claudeSessionOrganizer.sessions.refresh", () => refresh()),
+    vscode.commands.registerCommand("claudeSessionOrganizer.sessions.pin", async (node: { meta?: { sessionId: string } }) => {
       if (node?.meta) { await pins.pin(node.meta.sessionId); refresh(); }
     }),
-    vscode.commands.registerCommand("claudeCodeToolkit.sessions.unpin", async (node: { meta?: { sessionId: string } }) => {
+    vscode.commands.registerCommand("claudeSessionOrganizer.sessions.unpin", async (node: { meta?: { sessionId: string } }) => {
       if (node?.meta) { await pins.unpin(node.meta.sessionId); refresh(); }
     }),
-    vscode.commands.registerCommand("claudeCodeToolkit.sessions.rename", async (node: { meta?: { sessionId: string; title: string } }) => {
+    vscode.commands.registerCommand("claudeSessionOrganizer.sessions.rename", async (node: { meta?: { sessionId: string; title: string } }) => {
       if (!node?.meta) return;
       const current = names.get(node.meta.sessionId) ?? node.meta.title ?? "";
       const input = await vscode.window.showInputBox({ value: current, prompt: "Rename session (leave empty to reset)" });
@@ -46,7 +46,7 @@ export function registerCommands(
       else await names.set(node.meta.sessionId, input);
       refresh();
     }),
-    vscode.commands.registerCommand("claudeCodeToolkit.sessions.delete", async (node: { meta?: { sessionId: string; title: string; filePath: string } }) => {
+    vscode.commands.registerCommand("claudeSessionOrganizer.sessions.delete", async (node: { meta?: { sessionId: string; title: string; filePath: string } }) => {
       if (!node?.meta) return;
       const label = names.get(node.meta.sessionId) ?? node.meta.title ?? node.meta.sessionId;
       const pick = await vscode.window.showWarningMessage(
@@ -67,13 +67,13 @@ export function registerCommands(
       }
       refresh();
     }),
-    vscode.commands.registerCommand("claudeCodeToolkit.sessions.copyId", async (node: { meta?: { sessionId: string } }) => {
+    vscode.commands.registerCommand("claudeSessionOrganizer.sessions.copyId", async (node: { meta?: { sessionId: string } }) => {
       if (node?.meta) await vscode.env.clipboard.writeText(node.meta.sessionId);
     }),
-    vscode.commands.registerCommand("claudeCodeToolkit.sessions.copyPath", async (node: { meta?: { filePath: string } }) => {
+    vscode.commands.registerCommand("claudeSessionOrganizer.sessions.copyPath", async (node: { meta?: { filePath: string } }) => {
       if (node?.meta) await vscode.env.clipboard.writeText(node.meta.filePath);
     }),
-    vscode.commands.registerCommand("claudeCodeToolkit.sessions.search", async () => {
+    vscode.commands.registerCommand("claudeSessionOrganizer.sessions.search", async () => {
       const sessions = await load();
       if (sessions.length === 0) {
         void vscode.window.showInformationMessage("No sessions to search.");
@@ -87,7 +87,7 @@ export function registerCommands(
       const pick = await vscode.window.showQuickPick(items, { placeHolder: "Search sessions by name" });
       if (pick) await openAndTrack(pick.sessionId);
     }),
-    vscode.commands.registerCommand("claudeCodeToolkit.sessions.setColor", async (node: { meta?: { sessionId: string } }) => {
+    vscode.commands.registerCommand("claudeSessionOrganizer.sessions.setColor", async (node: { meta?: { sessionId: string } }) => {
       if (!node?.meta) return;
       const options = [
         { label: "🔴 Red", value: "🔴" },
@@ -104,7 +104,7 @@ export function registerCommands(
       await stores.colors.set(node.meta.sessionId, pick.value);
       refresh();
     }),
-    vscode.commands.registerCommand("claudeCodeToolkit.sessions.setEmoji", async (node: { meta?: { sessionId: string } }) => {
+    vscode.commands.registerCommand("claudeSessionOrganizer.sessions.setEmoji", async (node: { meta?: { sessionId: string } }) => {
       if (!node?.meta) return;
       const current = stores.emojis.get(node.meta.sessionId) ?? "";
       const input = await vscode.window.showInputBox({ value: current, prompt: "Set emoji (leave empty to clear)" });
@@ -112,7 +112,7 @@ export function registerCommands(
       await stores.emojis.set(node.meta.sessionId, input);
       refresh();
     }),
-    vscode.commands.registerCommand("claudeCodeToolkit.sessions.setGroup", async (node: { meta?: { sessionId: string } }) => {
+    vscode.commands.registerCommand("claudeSessionOrganizer.sessions.setGroup", async (node: { meta?: { sessionId: string } }) => {
       if (!node?.meta) return;
       const id = node.meta.sessionId;
       const existing = [...new Set(Object.values(stores.groups.all()))].sort();

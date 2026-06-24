@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1
+
+- Renamed to **Claude Session Organizer** (formerly "Toolkit for Claude Code") to better reflect its focus on organizing sessions.
+
 ## 0.6.0
 
 - Pin sync: pinning a session's editor tab now also pins it in the list (one-way; unpinning the tab does nothing). Works for sessions opened from the Toolkit list.

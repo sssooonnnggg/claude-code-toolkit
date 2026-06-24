@@ -1,9 +1,9 @@
-# Toolkit for Claude Code
+# Claude Session Organizer
 
 **English** | [简体中文](README.zh-CN.md)
 
-[![VS Marketplace](https://img.shields.io/visual-studio-marketplace/v/sssooonnnggg.claudecode-toolkit?label=VS%20Marketplace&color=D97757)](https://marketplace.visualstudio.com/items?itemName=sssooonnnggg.claudecode-toolkit)
-[![Installs](https://img.shields.io/visual-studio-marketplace/i/sssooonnnggg.claudecode-toolkit)](https://marketplace.visualstudio.com/items?itemName=sssooonnnggg.claudecode-toolkit)
+[![VS Marketplace](https://img.shields.io/visual-studio-marketplace/v/sssooonnnggg.claude-session-organizer?label=VS%20Marketplace&color=D97757)](https://marketplace.visualstudio.com/items?itemName=sssooonnnggg.claude-session-organizer)
+[![Installs](https://img.shields.io/visual-studio-marketplace/i/sssooonnnggg.claude-session-organizer)](https://marketplace.visualstudio.com/items?itemName=sssooonnnggg.claude-session-organizer)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 Quality-of-life enhancements for the official [Claude Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) VSCode extension. Browse, pin, search, rename, color-code, and group your Claude Code sessions from a dedicated sidebar.
@@ -26,25 +26,25 @@ Quality-of-life enhancements for the official [Claude Code](https://marketplace.
 
 ## Requirements
 
-The official **Claude Code** extension (`anthropic.claude-code`) must be installed and enabled — Toolkit reuses its "open session" command.
+The official **Claude Code** extension (`anthropic.claude-code`) must be installed and enabled — this extension reuses its "open session" command.
 
 ## Install
 
-Search **"Toolkit for Claude Code"** in the VS Code Extensions view, or install from the [Marketplace](https://marketplace.visualstudio.com/items?itemName=sssooonnnggg.claudecode-toolkit).
+Search **"Claude Session Organizer"** in the VS Code Extensions view, or install from the [Marketplace](https://marketplace.visualstudio.com/items?itemName=sssooonnnggg.claude-session-organizer).
 
 Then click the **pushpin icon** in the activity bar, open a workspace where you've used Claude Code, and your sessions appear. Hover a row for inline actions (rename, pin, delete); right-click for color, emoji, group, and copy.
 
 ## How it works
 
-Toolkit reads Claude Code's local session transcripts from `~/.claude/projects/<encoded-workspace>/*.jsonl` (read-only) to build the list, and derives each session's title from its first prompt. Your pins, names, colors, emojis, and groups are stored in this extension's own VS Code storage.
+It reads Claude Code's local session transcripts from `~/.claude/projects/<encoded-workspace>/*.jsonl` (read-only) to build the list, and derives each session's title from its first prompt. Your pins, names, colors, emojis, and groups are stored in this extension's own VS Code storage.
 
 ## Privacy
 
-Everything stays on your machine. Toolkit only reads local files under `~/.claude/projects`, stores its settings locally, and makes **no network requests**.
+Everything stays on your machine. It only reads local files under `~/.claude/projects`, stores its settings locally, and makes **no network requests**.
 
 ## Roadmap
 
-This extension is a home for small Claude Code enhancements. Ideas under consideration: export a session to Markdown, an all-projects view, sort options, and localization. Suggestions and bug reports welcome via [issues](https://github.com/sssooonnnggg/claude-code-toolkit/issues).
+This extension is a home for small Claude Code enhancements. Ideas under consideration: export a session to Markdown, an all-projects view, sort options, and localization. Suggestions and bug reports welcome via [issues](https://github.com/sssooonnnggg/claude-session-organizer/issues).
 
 ## License
 

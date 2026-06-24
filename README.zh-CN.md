@@ -1,9 +1,9 @@
-# Toolkit for Claude Code
+# Claude Session Organizer
 
 [English](README.md) | **简体中文**
 
-[![VS Marketplace](https://img.shields.io/visual-studio-marketplace/v/sssooonnnggg.claudecode-toolkit?label=VS%20Marketplace&color=D97757)](https://marketplace.visualstudio.com/items?itemName=sssooonnnggg.claudecode-toolkit)
-[![Installs](https://img.shields.io/visual-studio-marketplace/i/sssooonnnggg.claudecode-toolkit)](https://marketplace.visualstudio.com/items?itemName=sssooonnnggg.claudecode-toolkit)
+[![VS Marketplace](https://img.shields.io/visual-studio-marketplace/v/sssooonnnggg.claude-session-organizer?label=VS%20Marketplace&color=D97757)](https://marketplace.visualstudio.com/items?itemName=sssooonnnggg.claude-session-organizer)
+[![Installs](https://img.shields.io/visual-studio-marketplace/i/sssooonnnggg.claude-session-organizer)](https://marketplace.visualstudio.com/items?itemName=sssooonnnggg.claude-session-organizer)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 为官方 [Claude Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) VSCode 扩展提供的实用增强。在专属侧边栏里浏览、置顶、搜索、重命名、配色、分组你的 Claude Code 会话。
@@ -30,7 +30,7 @@
 
 ## 安装
 
-在 VS Code 扩展面板搜索 **"Toolkit for Claude Code"**，或从 [Marketplace](https://marketplace.visualstudio.com/items?itemName=sssooonnnggg.claudecode-toolkit) 安装。
+在 VS Code 扩展面板搜索 **"Claude Session Organizer"**，或从 [Marketplace](https://marketplace.visualstudio.com/items?itemName=sssooonnnggg.claude-session-organizer) 安装。
 
 然后点击活动栏的**图钉图标**，打开一个你用过 Claude Code 的工程，会话即会出现。悬停某行可用行内操作（重命名、置顶、删除）；右键可设置颜色、emoji、分组以及复制。
 
@@ -44,7 +44,7 @@
 
 ## 路线图
 
-本扩展是一系列 Claude Code 小增强的集合。正在考虑：导出会话为 Markdown、全工程视图、排序选项、本地化等。欢迎通过 [issues](https://github.com/sssooonnnggg/claude-code-toolkit/issues) 提建议或反馈问题。
+本扩展是一系列 Claude Code 小增强的集合。正在考虑：导出会话为 Markdown、全工程视图、排序选项、本地化等。欢迎通过 [issues](https://github.com/sssooonnnggg/claude-session-organizer/issues) 提建议或反馈问题。
 
 ## 许可证
 
